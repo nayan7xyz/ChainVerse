@@ -1,0 +1,42 @@
+[
+  {
+    "beneficiaryCode": "BEN001",
+    "beneficiaryName": "ABC Electronics",
+    "trustScore": 98,
+    "fraudReported": false,
+    "accountAgeInMonths": 60,
+    "successfulTransactions": 1200
+  },
+  {
+    "beneficiaryCode": "BEN002",
+    "beneficiaryName": "XYZ Traders",
+    "trustScore": 92,
+    "fraudReported": false,
+    "accountAgeInMonths": 48,
+    "successfulTransactions": 850
+  },
+  {
+    "beneficiaryCode": "BEN003",
+    "beneficiaryName": "Unknown Wallet",
+    "trustScore": 18,
+    "fraudReported": true,
+    "accountAgeInMonths": 2,
+    "successfulTransactions": 4
+  },
+  {
+    "beneficiaryCode": "BEN004",
+    "beneficiaryName": "Quick Transfer Services",
+    "trustScore": 45,
+    "fraudReported": false,
+    "accountAgeInMonths": 6,
+    "successfulTransactions": 55
+  },
+  {
+    "beneficiaryCode": "BEN005",
+    "beneficiaryName": "Trusted Hospital",
+    "trustScore": 99,
+    "fraudReported": false,
+    "accountAgeInMonths": 96,
+    "successfulTransactions": 2500
+  }
+]

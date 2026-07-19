@@ -1,0 +1,38 @@
+[
+  {
+    "patternName": "High Amount Transfer",
+    "description": "Transaction amount exceeds customer's normal behaviour.",
+    "riskWeight": 30,
+    "active": true
+  },
+  {
+    "patternName": "New Beneficiary",
+    "description": "Beneficiary has never received money from this customer.",
+    "riskWeight": 20,
+    "active": true
+  },
+  {
+    "patternName": "Low Trust Beneficiary",
+    "description": "Beneficiary trust score is below acceptable threshold.",
+    "riskWeight": 35,
+    "active": true
+  },
+  {
+    "patternName": "Late Night Transaction",
+    "description": "Transaction initiated between 11 PM and 5 AM.",
+    "riskWeight": 15,
+    "active": true
+  },
+  {
+    "patternName": "New Device Login",
+    "description": "Transaction initiated from an unrecognized device.",
+    "riskWeight": 25,
+    "active": true
+  },
+  {
+    "patternName": "High Velocity Transactions",
+    "description": "Multiple transactions in a short time period.",
+    "riskWeight": 25,
+    "active": true
+  }
+]

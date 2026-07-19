@@ -1,0 +1,29 @@
+[
+  {
+    "customerCode": "CUST001",
+    "fullName": "Rahul Sharma",
+    "balance": 500000,
+    "riskProfile": "LOW",
+    "averageTransactionAmount": 3500,
+    "homeLocation": "Mumbai",
+    "registeredDevice": "Samsung S24"
+  },
+  {
+    "customerCode": "CUST002",
+    "fullName": "Priya Singh",
+    "balance": 250000,
+    "riskProfile": "MEDIUM",
+    "averageTransactionAmount": 7000,
+    "homeLocation": "Delhi",
+    "registeredDevice": "iPhone 15"
+  },
+  {
+    "customerCode": "CUST003",
+    "fullName": "Amit Verma",
+    "balance": 900000,
+    "riskProfile": "LOW",
+    "averageTransactionAmount": 12000,
+    "homeLocation": "Bangalore",
+    "registeredDevice": "OnePlus 12"
+  }
+]

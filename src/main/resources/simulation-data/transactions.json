@@ -1,0 +1,41 @@
+[
+  {
+    "transactionId": "TXN000001",
+    "customerCode": "CUST001",
+    "beneficiaryCode": "BEN001",
+    "amount": 2500,
+    "purpose": "Electricity Bill",
+    "deviceId": "Samsung S24",
+    "location": "Mumbai",
+    "transactionTime": "2026-07-19T10:15:00",
+    "status": "APPROVED",
+    "decision": "APPROVED",
+    "riskScore": 5
+  },
+  {
+    "transactionId": "TXN000002",
+    "customerCode": "CUST001",
+    "beneficiaryCode": "BEN003",
+    "amount": 480000,
+    "purpose": "Investment",
+    "deviceId": "Unknown Device",
+    "location": "Delhi",
+    "transactionTime": "2026-07-19T02:30:00",
+    "status": "BLOCKED",
+    "decision": "BLOCKED",
+    "riskScore": 95
+  },
+  {
+    "transactionId": "TXN000003",
+    "customerCode": "CUST002",
+    "beneficiaryCode": "BEN005",
+    "amount": 15000,
+    "purpose": "Hospital Payment",
+    "deviceId": "iPhone 15",
+    "location": "Delhi",
+    "transactionTime": "2026-07-19T11:00:00",
+    "status": "APPROVED",
+    "decision": "APPROVED",
+    "riskScore": 8
+  }
+]
