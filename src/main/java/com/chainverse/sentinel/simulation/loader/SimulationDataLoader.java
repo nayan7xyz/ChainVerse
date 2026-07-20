@@ -1,7 +1,10 @@
 package com.chainverse.sentinel.simulation.loader;
 
+import com.chainverse.sentinel.audit.service.AuditService;
+import com.chainverse.sentinel.behaviour.BehaviourEngine;
 import com.chainverse.sentinel.beneficiary.entity.Beneficiary;
 import com.chainverse.sentinel.beneficiary.repository.BeneficiaryRepository;
+import com.chainverse.sentinel.blockchain.BlockchainService;
 import com.chainverse.sentinel.customer.entity.Customer;
 import com.chainverse.sentinel.customer.repository.CustomerRepository;
 import com.chainverse.sentinel.fraudpattern.entity.FraudPattern;
@@ -13,9 +16,9 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
-import org.springframework.boot.CommandLineRunner;
 
 import java.io.InputStream;
 import java.util.List;
@@ -32,6 +35,9 @@ public class SimulationDataLoader implements CommandLineRunner {
     private final FraudPatternRepository fraudPatternRepository;
     private final TransactionRepository transactionRepository;
 
+    private final AuditService auditService;
+    private final BlockchainService blockchainService;
+
     @Override
     public void run(String... args) throws Exception {
 
@@ -41,11 +47,8 @@ public class SimulationDataLoader implements CommandLineRunner {
         }
 
         loadCustomers();
-
         loadBeneficiaries();
-
         loadFraudPatterns();
-
         loadTransactions();
 
         log.info("=========================================");
@@ -67,8 +70,7 @@ public class SimulationDataLoader implements CommandLineRunner {
         List<Customer> customers =
                 objectMapper.readValue(
                         inputStream,
-                        new TypeReference<List<Customer>>() {
-                        });
+                        new TypeReference<List<Customer>>() {});
 
         customerRepository.saveAll(customers);
 
@@ -85,8 +87,7 @@ public class SimulationDataLoader implements CommandLineRunner {
         List<Beneficiary> beneficiaries =
                 objectMapper.readValue(
                         inputStream,
-                        new TypeReference<List<Beneficiary>>() {
-                        });
+                        new TypeReference<List<Beneficiary>>() {});
 
         beneficiaryRepository.saveAll(beneficiaries);
 
@@ -103,14 +104,14 @@ public class SimulationDataLoader implements CommandLineRunner {
         List<FraudPattern> patterns =
                 objectMapper.readValue(
                         inputStream,
-                        new TypeReference<List<FraudPattern>>() {
-                        });
+                        new TypeReference<List<FraudPattern>>() {});
 
         fraudPatternRepository.saveAll(patterns);
 
         log.info("{} Fraud Patterns Loaded", patterns.size());
 
     }
+
     private void loadTransactions() throws Exception {
 
         InputStream inputStream =
@@ -120,20 +121,19 @@ public class SimulationDataLoader implements CommandLineRunner {
         List<TransactionSeed> transactionSeeds =
                 objectMapper.readValue(
                         inputStream,
-                        new TypeReference<List<TransactionSeed>>() {
-                        });
+                        new TypeReference<List<TransactionSeed>>() {});
 
         for (TransactionSeed seed : transactionSeeds) {
 
             Customer customer = customerRepository
                     .findByCustomerCode(seed.customerCode())
-                    .orElseThrow(() -> new RuntimeException(
-                            "Customer not found : " + seed.customerCode()));
+                    .orElseThrow(() ->
+                            new RuntimeException("Customer not found : " + seed.customerCode()));
 
             Beneficiary beneficiary = beneficiaryRepository
                     .findByBeneficiaryCode(seed.beneficiaryCode())
-                    .orElseThrow(() -> new RuntimeException(
-                            "Beneficiary not found : " + seed.beneficiaryCode()));
+                    .orElseThrow(() ->
+                            new RuntimeException("Beneficiary not found : " + seed.beneficiaryCode()));
 
             Transaction transaction = Transaction.builder()
                     .transactionId(seed.transactionId())
@@ -144,17 +144,37 @@ public class SimulationDataLoader implements CommandLineRunner {
                     .deviceId(seed.deviceId())
                     .location(seed.location())
                     .transactionTime(seed.transactionTime())
+                    .analysisTime(seed.transactionTime())
                     .status(seed.status())
                     .decision(seed.decision())
                     .riskScore(seed.riskScore())
+                    .riskLevel(getRiskLevel(seed.riskScore()))
                     .build();
 
             transactionRepository.save(transaction);
+
+            auditService.saveAudit(transaction);
+
+            blockchainService.generateHash(transaction);
 
         }
 
         log.info("{} Transactions Loaded", transactionSeeds.size());
 
+    }
+
+    private String getRiskLevel(Integer score) {
+
+        if (score <= 30)
+            return "LOW";
+
+        if (score <= 60)
+            return "MEDIUM";
+
+        if (score <= 80)
+            return "HIGH";
+
+        return "CRITICAL";
     }
 
 }
